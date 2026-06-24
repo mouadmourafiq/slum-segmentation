@@ -213,8 +213,3 @@ MIN_VALID_RATIO = 0.005  # keep tiles with ≥ 0.5% non-black pixels
 ## License
 
 This project is for research and educational purposes.
-
-## Architecture Versions
-- **V2 (Root Directory)**: Region-Aware MoE B0. The Frontend UI is configured to work exclusively with this model.
-- **V1 (archive_versions/V1_Unet)**: Initial U-Net with ResNet34.
-- **V3 (archive_versions/V3_SegFormer)**: SegFormer-B2 with Lovász Loss (High precision, low recall).
