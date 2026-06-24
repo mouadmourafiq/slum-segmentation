@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slum AI Explorer v2.0</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="app-layout">
+        <!-- Sidebar Panel -->
+        <aside class="sidebar glass-panel">
+            <header>
+                <div class="logo-area">
+                    <span class="pulse-dot"></span>
+                    <h1>Slum AI Explorer</h1>
+                </div>
+                <p class="subtitle">Region-Aware MoE Architecture</p>
+            </header>
+
+            <div class="upload-section">
+                <div class="upload-box" id="drop-zone">
+                    <svg class="upload-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                    <h3>Upload Satellite TIF</h3>
+                    <p>Drag & drop or browse</p>
+                    <input type="file" id="file-input" accept=".tif,.tiff" hidden>
+                </div>
+            </div>
+
+            <!-- Dashboard Stats (Hidden initially) -->
+            <div id="dashboard-stats" class="dashboard-stats hidden">
+                <div class="stat-card">
+                    <div class="stat-icon">🧠</div>
+                    <div class="stat-info">
+                        <span class="stat-label">Model Engine</span>
+                        <strong id="stat-model">-</strong>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⏱️</div>
+                    <div class="stat-info">
+                        <span class="stat-label">Inference Time</span>
+                        <strong id="stat-time">-</strong>
+                    </div>
+                </div>
+                <div class="stat-card accent">
+                    <div class="stat-icon">🏠</div>
+                    <div class="stat-info">
+                        <span class="stat-label">Slum Regions Found</span>
+                        <strong id="stat-polygons" class="highlight">-</strong>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="layer-controls hidden" id="layer-controls">
+                <label class="toggle-container">
+                    <span class="toggle-label">Show AI Detection</span>
+                    <input type="checkbox" id="toggle-polygons" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="action-buttons hidden" id="action-buttons">
+                <button id="report-btn" class="btn btn-primary">📄 Intelligence Report</button>
+                <button id="reset-btn" class="btn btn-secondary">🔄 Analyze New Image</button>
+            </div>
+        </aside>
+
+        <!-- Map Area -->
+        <main class="map-container">
+            <button id="basemap-toggle" class="basemap-btn">🌍 Satellite View</button>
+            <div id="map"></div>
+            
+            <!-- Scanning Animation Overlay -->
+            <div id="scanning-overlay" class="scanning-overlay hidden">
+                <div class="scan-line"></div>
+                <div class="scan-text">
+                    <div class="spinner"></div>
+                    <p>AI is scanning urban fabric...</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Report Modal -->
+    <div id="report-modal" class="modal-overlay hidden">
+        <div class="modal-content glass-panel">
+            <div class="modal-header">
+                <h2>Slum Detection Report</h2>
+                <button id="close-modal" class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="chart-container" style="position: relative; height:200px; margin-bottom: 2rem;">
+                    <canvas id="slumChart"></canvas>
+                </div>
+                <div class="table-container">
+                    <table id="report-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Area (m²)</th>
+                                <th>Latitude</th>
+                                <th>Longitude</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Filled dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="export-csv-btn" class="btn btn-primary">⬇️ Download CSV</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Turf.js for Spatial Analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
+    <!-- Chart.js for Data Visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Custom JS -->
+    <script src="/static/app.js"></script>
+</body>
+</html>

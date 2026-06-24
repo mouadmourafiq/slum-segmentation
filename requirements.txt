@@ -1,0 +1,30 @@
+# ============================================================
+# Slum Settlement Semantic Segmentation - Dependencies
+# ============================================================
+# Install: pip install -r requirements.txt
+#
+# Note: For Apple M1/M2/M3, PyTorch with MPS support is
+# included in the standard PyTorch >= 2.0 distribution.
+# ============================================================
+
+# --- Core Deep Learning ---
+torch>=2.1.0
+torchvision>=0.16.0
+
+# --- Segmentation Models ---
+segmentation-models-pytorch>=0.3.3
+
+# --- Geospatial I/O ---
+rasterio>=1.3.0
+
+# --- Image Augmentation ---
+albumentations>=1.3.1
+opencv-python-headless>=4.8.0
+
+# --- Numerical & Scientific ---
+numpy>=1.24.0
+scikit-learn>=1.3.0
+
+# --- Utilities ---
+tqdm>=4.65.0
+matplotlib>=3.7.0
